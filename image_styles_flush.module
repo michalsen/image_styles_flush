@@ -1,0 +1,27 @@
+<?php
+
+/**
+ *  So much can be done with this, but I'll
+ *  start here.
+ *
+ *  Flush *truck* and *product* image styles.
+ *  Change that preg_match() to your own liking
+ */
+
+
+// Implements hook_cron()
+function image_styles_flush_cron() {
+  $imageStyle = \Drupal::entityTypeManager()->getStorage('image_style');
+  $styles = $imageStyle->loadMultiple();
+  foreach ($styles as $style) {
+    if (preg_match('/truck|product/i', $style->get('name'))) {
+
+      try {
+        $key = $imageStyle->load($style->get('name'))->flush();
+        Drupal::logger('Flush')->notice($style->get('name') . ' flushed');
+      } catch (Exception $e) {
+        Drupal::logger('Flush Error')->notice($style->get('name') . 'did NOT flush');
+      }
+    }
+  }
+}

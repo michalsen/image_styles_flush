@@ -1,0 +1,5 @@
+name: Image Styles Flush
+type: module
+description: 'Flush Specific Image Styles'
+core: 8.x
+package: Custom
